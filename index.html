@@ -1,0 +1,165 @@
+<html>
+    <head>
+        <title>Pokéwatch</title>
+        <meta charset="utf-8">
+        <style type="text/css">
+            @font-face {
+                font-family: lcd;
+                src: url(dotty.woff);
+            }
+
+            body {
+                background: lavender;
+                margin: 0;
+            }
+
+            h1 {
+                position: absolute;
+                margin: 0;
+                text-align: center;
+                font-family: lcd;
+            }
+
+            .top {
+                width: 360px;
+                height: 180px;
+                border-radius: 360px 360px 0 0;
+                background: #ed1b24;
+            }
+
+            .bottom {
+                width: 360px;
+                height: 180px;
+                border-radius: 0 0 360px 360px;
+                background: #fff;
+            }
+
+            .lcd {
+                width: 180px;
+                height: 144px;
+                background: beige;
+                top: 108px;
+                left: 90px;
+                position: absolute;
+                border-radius: 10px;
+                border-style: solid;
+                border-width: 5px;
+            }
+
+            .seal {
+                width: 90px;
+                height: 8px;
+                background: #000;
+                top: 175px;
+                position: absolute;
+            }
+
+            #right.seal {
+                left: 275px;
+                width: 85px;
+            }
+
+            #date {
+                position: static;
+                font-size: 2em;
+            }
+
+            #time {
+                /*font-size: 2.5em;
+                top: 90px;
+                left: 75px;*/
+                font-size: 3.5em;
+                top: 80px;
+                left: 52px;
+            }
+
+            #seconds {
+                font-size: 2em;
+                top: 96px;
+                left: 136px;
+            }
+
+            #w-text {
+                font-size: 4em;
+                top: 40px;
+                left: 10px;
+            }
+
+            #w-icon {
+                position: absolute;
+                width: 30%; /* 24% */
+                top: 15px; /* 15px */
+                left: 5px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="top"></div>
+        <div class="bottom"></div>
+        <div class="lcd">
+            <h1 id="date">Tues Feb 6</h1>
+            <div class="weather">
+                <img id="w-icon" src="weather_icons/sunny.png">
+                <h1 id="w-text">0<span style="font-family: sans-serif; font-size: 0.5em;">°</span></h1>
+            </div>
+            <h1 style="font-size: 1em; top: 82px;">_____________________________</h1>
+            <h1 id="time">00:00</h1>
+            <h1 id="seconds">00</h1>
+        </div>
+        <div class="seal"></div>
+        <div id="right" class="seal"></div>
+    </body>
+
+    <script type="text/javascript">
+        function getFormatedDate(month, weekday, day) {
+            var str = weekday == 0? "Mon ": weekday == 1? "Tues ": weekday == 2? "Wed ": weekday == 3? "Thur ": weekday == 4? "Fri ": weekday == 5? "Sat ": "Sun ";
+            str += month == 0? "Jan ": month == 1? "Feb ": month == 2? "Mar ": month == 3? "Apr ": month == 4? "May ": month == 5? "Jun ": month == 6? "Jul ": month == 7? "Aug ": month == 8? "Sep ": month == 9? "Oct ": month == 10? "Nov ": "Dec ";
+            str += day;
+            return str;
+        }
+
+        function getWeather(data) {
+            var condition = data.query.results.channel.item.condition;
+            var date = new Date();
+            var icon = document.getElementById("w-icon");
+            document.getElementById("date").innerHTML = getFormatedDate(date.getMonth(), date.getDay(), date.getDate());
+            document.getElementById("w-text").innerHTML = Math.round((condition.temp - 32)/1.8) + "<span style='font-family: sans-serif; font-size: 0.5em;'>&deg;</span>";
+
+            // Partly Cloudy, Mostly Cloudy, Fair, Showers in the Vicinity, Haze, Light snow
+            if(date.getHours() > 6 && date.getHours() < 18) {
+                if(condition.text.indexOf("Fair") > -1)
+                    icon.src = "weather_icons/sunny.png";
+                else if(condition.text.indexOf("Showers") > -1)
+                    icon.src = "weather_icons/showers.png";
+                else if(condition.text.indexOf("Cloudy") > -1)
+                    icon.src = "weather_icons/cloudy.png";
+                else if(condition.text.indexOf("Haze") > -1) {
+                    icon.src = "weather_icons/haze.png";
+                    icon.style.width = "35%";
+                } else if(condition.text.indexOf("Snow") > -1)
+                    icon.src = "weather_icons/snow.png";
+            } else {
+                if(condition.text.indexOf("Fair") > -1)
+                    icon.src = "weather_icons/clear.png";
+                else if(condition.text.indexOf("Cloudy") > -1)
+                    icon.src = "weather_icons/cloudy.png";
+            }
+        }
+
+        function updateTime() {
+            var date = new Date();
+            var hours = date.getHours() < 10? "0" + date.getHours(): date.getHours();
+            var minutes = date.getMinutes() < 10? "0" + date.getMinutes(): date.getMinutes();
+
+            document.getElementById("time").innerHTML =  hours + ":" + minutes;
+            document.getElementById("seconds").innerHTML = date.getSeconds() < 10? "0" + date.getSeconds(): date.getSeconds();
+
+            window.setTimeout(updateTime, 1000);
+        }
+
+        window.onload = updateTime();
+    </script>
+    <script src="https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='los angeles, ca')&format=json&callback=getWeather"> // Yahoo! Weather API
+    </script>
+</html>
