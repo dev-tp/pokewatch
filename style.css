@@ -1,0 +1,88 @@
+@font-face {
+    font-family: lcd;
+    src: url(dotty.woff);
+}
+
+body {
+    background: lavender;
+    margin: 0;
+}
+
+h1 {
+    position: absolute;
+    margin: 0;
+    text-align: center;
+    font-family: lcd;
+}
+
+.top {
+    width: 360px;
+    height: 180px;
+    border-radius: 360px 360px 0 0;
+    background: #ed1b24;
+}
+
+.bottom {
+    width: 360px;
+    height: 180px;
+    border-radius: 0 0 360px 360px;
+    background: #fff;
+}
+
+.lcd {
+    width: 180px;
+    height: 144px;
+    background: beige;
+    top: 108px;
+    left: 90px;
+    position: absolute;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 5px;
+}
+
+.seal {
+    width: 90px;
+    height: 8px;
+    background: #000;
+    top: 175px;
+    position: absolute;
+}
+
+#right.seal {
+    left: 275px;
+    width: 85px;
+}
+
+#date {
+    position: static;
+    font-size: 2em;
+}
+
+#time {
+    /*font-size: 2.5em;
+    top: 90px;
+    left: 75px;*/
+    font-size: 3.5em;
+    top: 80px;
+    left: 52px;
+}
+
+#seconds {
+    font-size: 2em;
+    top: 96px;
+    left: 136px;
+}
+
+#w-text {
+    font-size: 4em;
+    top: 40px;
+    left: 10px;
+}
+
+#w-icon {
+    position: absolute;
+    width: 30%; /* 24% */
+    top: 15px; /* 15px */
+    left: 5px;
+}
