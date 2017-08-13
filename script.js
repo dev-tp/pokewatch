@@ -1,8 +1,13 @@
+var weekdays = ['Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
+
+var months = [
+    'Jan', 'Feb', 'Mar', 'Apr',
+    'May', 'Jun', 'Jul', 'Aug',
+    'Sep', 'Oct', 'Nov', 'Dec'
+];
+
 function getFormattedDate(month, weekday, day) {
-    var str = weekday == 0 ? 'Mon ' : weekday == 1 ? 'Tues ' : weekday == 2 ? 'Wed ' : weekday == 3 ? 'Thur ' : weekday == 4 ? 'Fri ' : weekday == 5 ? 'Sat ' : 'Sun ';
-    str += month == 0 ? 'Jan ' : month == 1 ? 'Feb ' : month == 2 ? 'Mar ' : month == 3 ? 'Apr ' : month == 4 ? 'May ' : month == 5 ? 'Jun ' : month == 6 ? 'Jul ' : month == 7 ? 'Aug ' : month == 8 ? 'Sep ' : month == 9 ? 'Oct ' : month == 10 ? 'Nov ' : 'Dec ';
-    str += day;
-    return str;
+    return weekdays[weekday] + ' ' + months[month] + ' ' + day;
 }
 
 function getWeather(data) {
