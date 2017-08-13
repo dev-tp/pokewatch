@@ -1,27 +1,27 @@
 <html>
-    <head>
-        <title>Pokéwatch</title>
-        <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="./style.css">
-    </head>
-    <body>
-        <!-- TODO Fix resolution -->
-        <div class="top"></div>
-        <div class="bottom"></div>
-        <div class="lcd">
-            <h1 id="date">Tues Feb 6</h1>
-            <div class="weather">
-                <img id="w-icon" src="weather_icons/sunny.png">
-                <h1 id="w-text">0<span style="font-family: sans-serif; font-size: 0.5em;">°</span></h1>
-            </div>
-            <h1 style="font-size: 1em; top: 82px;">_____________________________</h1>
-            <h1 id="time">00:00</h1>
-            <h1 id="seconds">00</h1>
+<head>
+    <title>Pokéwatch</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+<body>
+    <!-- TODO Fix resolution -->
+    <div class="top"></div>
+    <div class="bottom"></div>
+    <div class="lcd">
+        <h1 id="date">Tues Feb 6</h1>
+        <div class="weather">
+            <img id="w-icon" src="weather_icons/sunny.png">
+            <h1 id="w-text">0<span style="font-family: sans-serif; font-size: 0.5em;">°</span></h1>
         </div>
-        <div class="seal"></div>
-        <div id="right" class="seal"></div>
-    </body>
+        <h1 style="font-size: 1em; top: 82px;">_____________________________</h1>
+        <h1 id="time">00:00</h1>
+        <h1 id="seconds">00</h1>
+    </div>
+    <div class="seal"></div>
+    <div id="right" class="seal"></div>
     <script src="./script.js"></script>
     <script src="https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='los angeles, ca')&format=json&callback=getWeather"> // Yahoo! Weather API
     </script>
+</body>
 </html>
