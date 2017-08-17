@@ -6,6 +6,21 @@ var months = [
   'Sep', 'Oct', 'Nov', 'Dec'
 ];
 
+var weatherConditions = {
+  'day': {
+    'Cloudy': 'weather_icons/cloudy.png',
+    'Fair': 'weather_icons/sunny.png',
+    'Haze': 'weather_icons/haze.png',
+    'Showers': 'weather_icons/showers.png',
+    'Snow': 'weahter_icons/snow.png'
+  },
+  'night': {
+    // TODO Create icons specific for night time
+    'Cloudy': 'weather_icons/cloudy.png',
+    'Clear': 'weather_icons/clear.png'
+  }
+};
+
 function getFormattedDate(month, weekday, day) {
   return weekdays[weekday] + ' ' + months[month] + ' ' + day;
 }
@@ -19,24 +34,14 @@ function getWeather(data) {
   document.getElementById('w-text').innerHTML = Math.round((condition.temp - 32) / 1.8) + '<span style="font-family: sans-serif; font-size: 0.5em;">&deg;</span>';
 
   // Partly Cloudy, Mostly Cloudy, Fair, Showers in the Vicinity, Haze, Light snow
-  if (date.getHours() > 6 && date.getHours() < 18) {
-    if (condition.text.indexOf('Fair') > -1)
-      icon.src = 'weather_icons/sunny.png';
-    else if (condition.text.indexOf('Showers') > -1)
-      icon.src = 'weather_icons/showers.png';
-    else if (condition.text.indexOf('Cloudy') > -1)
-      icon.src = 'weather_icons/cloudy.png';
-    else if (condition.text.indexOf('Haze') > -1) {
-      icon.src = 'weather_icons/haze.png';
-      icon.style.width = '35%';
-    } else if (condition.text.indexOf('Snow') > -1)
-      icon.src = 'weather_icons/snow.png';
-  } else {
-    if (condition.text.indexOf('Fair') > -1)
-      icon.src = 'weather_icons/clear.png';
-    else if (condition.text.indexOf('Cloudy') > -1)
-      icon.src = 'weather_icons/cloudy.png';
-  }
+  var hours = date.getHours();
+  var weatherCondition = condition.text.split(' ');
+  var size = weatherCondition.length;
+
+  if (6 < hours && hours < 18)
+    icon.src = weatherConditions['day'][weatherCondition[size == 1 || size > 2 ? 0 : 1]];
+  else
+    icon.src = weatherConditions['night'][weatherCondition[size == 1 || size > 2 ? 0 : 1]];
 }
 
 function updateTime() { // TODO Manage memory
